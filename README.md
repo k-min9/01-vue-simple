@@ -1,6 +1,6 @@
 # 01-vue-simple
 
-가볍게 화면 구현
+AI 청약 프로세스를 위한 화면 구현
 
 ## 환경
 
@@ -11,7 +11,7 @@ Node.js 20.13.1
 npm install -g @vue/cli
 (vue create 01-vue-simple)
 
-npm install axios
+npm install
 
 ## 실행
 
@@ -28,6 +28,9 @@ npm run serve
     - ProductRecommendations : 상품검색으로 추천된 상품들을 표시
       - ProductCard : 각각의 상품을 card의 형태로 표시
     - ProductDetails : 맞춤 청약 내용물 확인 및 다음 화면으로 넘어갈지를 확인
+  - ApplicationMain : 청약메인
+    - 라우터를 통해 별도 화면으로 이동
+    - MainPage로 부터 선택 고객, 선택상품, API 조회 정보를 전달 받음
 - assets
   - customer : customerid와 연동 이미지
   - 기타 : button, dummy, loading
@@ -67,3 +70,6 @@ npm run serve
 
 - OO보험사 상품공시실
 - iconfinder
+- npm
+  - npm install axios
+  - npm install vue-router@3

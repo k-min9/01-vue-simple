@@ -29,7 +29,7 @@
         this.$emit('back-to-step2');
       },
       proceed() {
-        this.$emit('proceed');
+        this.$emit('proceed-to-application');
       }
     }
   };

@@ -12,8 +12,8 @@
   
 <style>
   .dummy2-image {
-    width: 800px;
-    height: 200px;
+    width: 100%;
+    height: 500px;
   }
 </style>
   

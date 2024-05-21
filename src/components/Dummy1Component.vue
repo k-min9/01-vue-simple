@@ -12,7 +12,7 @@
 
 <style>
   .dummy1-image {
-    width: 800px;
-    height: 200px;
+    width: 100%;
+    height: 60px;
   }
 </style>

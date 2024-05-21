@@ -1,16 +1,33 @@
 <template>
   <div class="main-page">
-    <div class="customer-list-container">
-      <CustomerList :customers="customers" @customer-selected="selectCustomer" />
+    <div class="upper-section">
+      <div class="left-part">
+        <div class="customer-list-container">
+          <CustomerList :customers="customers" @customer-selected="selectCustomer" />
+        </div>
+        <div class="dummy1-container">
+          <component :is="dummy1Component" ref="aiProcess" />
+        </div>
+      </div>
+      <div class="right-part">
+        <div class="button-container">
+          <img src="@/assets/button.png" alt="Button" class="button-image" @click="startProcess" />
+        </div>
+      </div>
     </div>
-    <div class="dummy1-container">
-      <component :is="dummy1Component" ref="aiProcess" />
-    </div>
-    <div class="dummy2-container">
-      <component :is="dummy2Component" :products="products" :apiResponse="apiResponse" @proceed="handleProceed" @cancel="resetProcess" @back-to-step2="backToStep2" />
-    </div>
-    <div class="button-container">
-      <img src="@/assets/button.png" alt="Button" class="button-image" @click="startProcess" />
+    <div class="lower-section">
+      <div class="dummy2-container">
+        <component 
+          :is="dummy2Component" 
+          :customer-name="selectedCustomer ? selectedCustomer.name : ''" 
+          :products="products" 
+          :apiResponse="apiResponse" 
+          @proceed="handleProceed" 
+          @cancel="resetProcess" 
+          @back-to-step2="backToStep2" 
+          @proceed-to-application="proceedToApplication"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -21,6 +38,7 @@ import Dummy1Component from './Dummy1Component.vue';
 import Dummy2Component from './Dummy2Component.vue';
 import AiProcess from './AiProcess.vue';
 import LoadingComponent from './LoadingComponent.vue';
+import LoadingComponent2 from './LoadingComponent2.vue';
 import ProductRecommendations from './ProductRecommendations.vue';
 import ProductDetails from './ProductDetails.vue';
 // import axios from 'axios';
@@ -33,6 +51,7 @@ export default {
     Dummy2Component,
     AiProcess,
     LoadingComponent,
+    LoadingComponent2,
     ProductRecommendations,
     ProductDetails
   },
@@ -100,7 +119,7 @@ export default {
 
       this.selectedProduct = selectedProduct;
       this.$refs.aiProcess.setStep(2);
-      this.dummy2Component = 'LoadingComponent';
+      this.dummy2Component = 'LoadingComponent2';
 
       // Simulate API call to fetch product details
       setTimeout(() => {
@@ -116,8 +135,8 @@ export default {
           newSubscription: '없음',
           insuranceFee: '146,760 원',
           productDetails: [
-            { coverageId: 1, coverageName: '담보명1', subscriptionAmount: '가입금액1', paymentPeriod: '납기1', maturity: '만기1', insuranceFee: '보험료1' },
-            { coverageId: 2, coverageName: '담보명2', subscriptionAmount: '가입금액2', paymentPeriod: '납기2', maturity: '만기2', insuranceFee: '보험료2' }
+            { coverageId: 1, coverageName: '일반상해사망', subscriptionAmount: 100, paymentPeriod: '20년', maturity: '20년', insuranceFee: 123456789 },
+            { coverageId: 2, coverageName: '진단비', subscriptionAmount: 1000, paymentPeriod: '5년', maturity: '100세', insuranceFee: 654321 }
           ]
         };
 
@@ -135,6 +154,21 @@ export default {
     backToStep2() {
       this.dummy2Component = 'ProductRecommendations';
       this.$refs.aiProcess.setStep(2);
+    },
+    proceedToApplication() {
+      if (!this.selectedProduct) {
+        alert('상품을 선택해주세요.');
+        return;
+      }
+
+      this.$router.push({
+        name: 'ApplicationMain',
+        params: {
+          apiResponse: this.apiResponse,
+          selectedCustomer: this.selectedCustomer,
+          selectedProduct: this.selectedProduct
+        }
+      });
     }
   }
 }
@@ -144,30 +178,75 @@ export default {
 .main-page {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.upper-section {
+  display: flex;
+  width: 100%;
+  height: 60%;
+  margin-bottom: 20px;
+}
+
+.left-part {
+  display: flex;
+  flex-direction: column;
+  width: 78%;
+  margin-right: 2%;
 }
 
 .customer-list-container {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
+  flex: 1;
   background-color: #f0f0f0;
+  margin-bottom: 20px;
 }
 
-.dummy1-container, .dummy2-container {
-  margin: 20px 0;
+.dummy1-container {
+  flex: 1;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right-part {
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #d3d3d3;
 }
 
 .button-container {
-  position: absolute;
-  right: 20px;
-  top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button-image {
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   cursor: pointer;
+}
+
+.lower-section {
+  width: 100%;
+  height: 40%;
+  background-color: #ffffff;
+}
+
+.dummy2-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.component-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

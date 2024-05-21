@@ -25,7 +25,7 @@ export default {
 <style>
 .ai-process {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
   background-color: #f0f0f0;
   padding: 10px;

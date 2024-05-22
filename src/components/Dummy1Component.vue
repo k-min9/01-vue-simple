@@ -5,14 +5,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'Dummy1Component'
-  }
+export default {
+  name: 'Dummy1Component'
+}
 </script>
 
 <style>
-  .dummy1-image {
-    width: 100%;
-    height: 60px;
-  }
+.dummy1-image {
+  width: 100%;
+  height: 60px;
+}
 </style>
